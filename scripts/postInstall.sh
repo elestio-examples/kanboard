@@ -6,7 +6,7 @@ echo "Waiting for software to be ready ..."
 sleep 60s;
 
 
-echo "${ADMIN_PASSWORD}" |docker-compose exec -T db mysql -u root -p"${MYSQL_ROOT_PASSWORD}" -e "USE kanboard; UPDATE users SET email='${ADMIN_EMAIL}' WHERE username='admin';"
+echo "${ADMIN_PASSWORD}" | docker-compose exec -T db mysql -u root -p"${MYSQL_ROOT_PASSWORD}" -e "USE kanboard; UPDATE users SET email='${ADMIN_EMAIL}' WHERE username='admin';"
 
 docker-compose down;
 
