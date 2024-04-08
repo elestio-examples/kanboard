@@ -1,0 +1,45 @@
+version: "2"
+services:
+  kanboard:
+    image: kanboard/kanboard:${SOFTWARE_VERSION_TAG}
+    ports:
+      - "172.17.0.1:37770:80"
+    volumes:
+      - ./kanboard_data:/var/www/app/data
+      - ./kanboard_plugins:/var/www/app/plugins
+      - ./Mysql.php:/var/www/app/app/Schema/Mysql.php
+    environment:
+      DATABASE_URL: mysql://root:${MYSQL_ROOT_PASSWORD}@db:3306/kanboard
+      MAIL_CONFIGURATION: "true"
+      MAIL_FROM: ${MAIL_FROM}
+      MAIL_TRANSPORT: ${MAIL_TRANSPORT}
+      MAIL_SMTP_HOSTNAME: ${MAIL_SMTP_HOSTNAME}
+      MAIL_SMTP_PORT: ${MAIL_SMTP_PORT}
+
+  db:
+    image: elestio/mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: kanboard
+    volumes:
+      - ./db:/var/lib/mysql
+    ports:
+      - 172.17.0.1:3328:3306
+
+  pma:
+    image: elestio/phpmyadmin
+    restart: always
+    links:
+      - db:db
+    ports:
+      - "172.17.0.1:54356:80"
+    environment:
+      PMA_HOST: db
+      PMA_PORT: 3306
+      PMA_USER: root
+      PMA_PASSWORD: ${ADMIN_PASSWORD}
+      UPLOAD_LIMIT: 500M
+      MYSQL_USERNAME: root
+      MYSQL_ROOT_PASSWORD: ${ADMIN_PASSWORD}
+    depends_on:
+      - db
