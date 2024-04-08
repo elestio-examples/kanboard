@@ -3,6 +3,13 @@ set -o allexport; source .env; set +o allexport;
 
 #wait until the server is ready
 echo "Waiting for software to be ready ..."
+
+docker-compose down;
+
+rm -rf ./db
+
+docker-compose up -d;
+
 sleep 60s;
 
 
