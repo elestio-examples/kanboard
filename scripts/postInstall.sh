@@ -3,7 +3,7 @@ set -o allexport; source .env; set +o allexport;
 
 #wait until the server is ready
 echo "Waiting for software to be ready ..."
-sleep 30s;
+sleep 60s;
 
 
 echo "${ADMIN_PASSWORD}" |docker-compose exec -T db mysql -u root -p"${MYSQL_ROOT_PASSWORD}" -e "USE kanboard; UPDATE users SET email='${ADMIN_EMAIL}' WHERE username='admin';"
