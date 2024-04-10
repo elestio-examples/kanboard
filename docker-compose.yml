@@ -21,6 +21,8 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_DATABASE: kanboard
+      MYSQL_USER: kanboard
+      MYSQL_PASSWORD: ${MYSQL_ROOT_PASSWORD}
     volumes:
       - ./db:/var/lib/mysql
     ports:
